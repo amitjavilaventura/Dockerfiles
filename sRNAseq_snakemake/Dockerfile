@@ -17,33 +17,19 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 
 # Install software required for chipseq pipeline with bioconda
 # Force version of samtools to avoid error https://github.com/bioconda/bioconda-recipes/issues/13958
-RUN /opt/miniconda3/bin/conda install -c bioconda \
+RUN /opt/miniconda3/bin/conda install -c bioconda -c conda-forge \
 fastqc \
-multiqc \ 
-bowtie2 \
-samtools=1.11 \
-samblaster \
-picard \
-IDR \
-genrich \ 
-deeptools \
+multiqc \
+cutadapt \
+bowtie \
+samtools \
+subread \
 bedtools \
-wiggletools \
+deeptools \
 pysam \ 
 r-spp \
-ucsc-bedgraphtobigwig \
-NGmerge
-# nucleoatac \
-# tobias \   
-# atacv 
+rseqc
 
-# Install fastp manually because bioconda verison is not the latest
-RUN wget http://opengene.org/fastp/fastp \
-&& chmod a+x ./fastp \
-&& mv ./fastp /usr/local/bin
-
-# # Install TOBIAS via pip -->no
-# RUN pip install tobias
 
 # bioconductor
 RUN R --slave -e "BiocManager::install(c( \
@@ -53,24 +39,27 @@ RUN R --slave -e "BiocManager::install(c( \
         'TxDb.Mmusculus.UCSC.mm10.knownGene', \
         'TxDb.Hsapiens.UCSC.hg19.knownGene', \
         'TxDb.Hsapiens.UCSC.hg18.knownGene', \
-        'ChIPseeker', \
-        'ChIPpeakAnno', \
-        'DiffBind', \
+        'DESeq2', \
         'clusterProfiler', \
-        'enrichplot', \
+        'pcaExplorer', \
         'plyranges', \
-        'ComplexHeatmap', \
-        'circlize'))" 
+        'apeglm', \
+        'IHW', \
+        'GenomicFeatures', \
+        'Rsamtools', 'ShortRead'))" 
 
-# # cran
-# RUN R --slave -e 'install.packages(c( \
-#         "data.table", \
-#         "tidyverse", \
-#         "RColorBrewer", \
-#         "devtools", \
-#         "spp", \
-#         "magrittr"), \
-#         repos="https://cloud.r-project.org/")'
+# cran
+RUN R --slave -e 'install.packages(c( \
+         "data.table", \
+         "tidyverse", \
+         "RColorBrewer", \
+         "devtools", \
+         "spp", \
+         "magrittr", \
+         "msigdbr", \
+         "ggforce", \
+         "ggpubr"), \
+         repos="https://cloud.r-project.org/")'
 
 # Update path
 ENV PATH "/opt/miniconda3/bin:$PATH"
