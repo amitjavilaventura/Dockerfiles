@@ -30,36 +30,12 @@ pysam \
 r-spp \
 rseqc
 
+# Install R packages
+RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 
-# bioconductor
-RUN R --slave -e "BiocManager::install(c( \
-        'org.Mm.eg.db', \
-        'org.Hs.eg.db', \
-        'TxDb.Mmusculus.UCSC.mm9.knownGene', \
-        'TxDb.Mmusculus.UCSC.mm10.knownGene', \
-        'TxDb.Hsapiens.UCSC.hg19.knownGene', \
-        'TxDb.Hsapiens.UCSC.hg18.knownGene', \
-        'DESeq2', \
-        'clusterProfiler', \
-        'pcaExplorer', \
-        'plyranges', \
-        'apeglm', \
-        'IHW', \
-        'GenomicFeatures', \
-        'Rsamtools', 'ShortRead'))" 
-
-# cran
-RUN R --slave -e 'install.packages(c( \
-         "data.table", \
-         "tidyverse", \
-         "RColorBrewer", \
-         "devtools", \
-         "spp", \
-         "magrittr", \
-         "msigdbr", \
-         "ggforce", \
-         "ggpubr"), \
-         repos="https://cloud.r-project.org/")'
+RUN mkdir /Rscripts
+COPY rpackages.R /Rscripts/
+RUN Rscript /Rscripts/rpackages.R
 
 # Update path
 ENV PATH "/opt/miniconda3/bin:$PATH"
