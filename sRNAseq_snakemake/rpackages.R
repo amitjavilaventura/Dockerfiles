@@ -1,5 +1,5 @@
 
-# Install packages function
+# Install packages function -- function taken from dfernandezperez
 install_packages <- function(packages) {
   for ( i in packages ) {
     if ( grepl(i, pattern = '/') ) {
