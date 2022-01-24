@@ -39,15 +39,17 @@ COPY rpackages.R /Rscripts/
 RUN Rscript /Rscripts/rpackages.R
 
 # Download proTRAC and related tools
-RUN mkdir -p src/
-RUN cd src/
+RUN mkdir -p /src/
+RUN cd /src/
 RUN wget https://sourceforge.net/projects/protrac/files/proTRAC_2.4.3.pl
 RUN mv proTRAC_2.4.3.pl proTRAC.pl
-RUN wget https://sourceforge.net/projects/protrac/files/sRNAmapper.pl
-RUN wget https://sourceforge.net/projects/protrac/files/reallocate.pl
 RUN wget https://www.smallrnagroup.uni-mainz.de/software/TBr2.zip
 RUN unzip TBr2.zip
+RUN wget https://sourceforge.net/projects/protrac/files/sRNAmapper.pl
+RUN wget https://sourceforge.net/projects/protrac/files/reallocate.pl
+RUN wget https://www.smallrnagroup.uni-mainz.de/software/phaser.pl
 
 # Update path
+ENV PATH "/src:$PATH"
 ENV PATH "/opt/miniconda3/bin:$PATH"
 ENV PATH "/usr/local/bin:$PATH"
