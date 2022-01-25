@@ -16,20 +16,18 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 && /opt/miniconda3/bin/conda config --add channels bioconda
 
 # Install software required for small RNA-seq pipeline with bioconda
-RUN /opt/miniconda3/bin/conda install -c bioconda -c conda-forge \
-fastqc \
-rseqc \
-multiqc \
-cutadapt \
-fastx_toolkit \
-bowtie \
-samtools \
-subread \
-bedtools \
-deeptools \
-pysam \ 
-r-spp \
-unzip
+RUN /opt/miniconda3/bin/conda install fastqc
+RUN /opt/miniconda3/bin/conda install rseqc
+RUN /opt/miniconda3/bin/conda install multiqc
+RUN /opt/miniconda3/bin/conda install cutadapt
+RUN /opt/miniconda3/bin/conda install fastx_toolkit
+RUN /opt/miniconda3/bin/conda install bowtie
+RUN /opt/miniconda3/bin/conda install samtools
+RUN /opt/miniconda3/bin/conda install subread
+RUN /opt/miniconda3/bin/conda install bedtools
+RUN /opt/miniconda3/bin/conda install deeptools
+RUN /opt/miniconda3/bin/conda install pysam 
+RUN /opt/miniconda3/bin/conda install r-spp
 
 # Install R packages
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'

@@ -33,7 +33,7 @@ packages_utilities <- c("devtools")
 packages_tidy_stuff <- c( "data.table", "tidyverse", "openxlsx", "magrittr")
 packages_plots <- c("ggforce", "ggpubr", "RColorBrewer")
 packages_de_stuff <- c('DESeq2', 'pcaExplorer','apeglm', 'IHW')
-packages_genomics_stuff <- c('GenomicRanges' 'plyranges', 'GenomicFeatures', "Rsamtools", "RegioneR", "megadepth")
+packages_genomics_stuff <- c('GenomicRanges', 'plyranges', 'GenomicFeatures', "Rsamtools", "megadepth")
 packages_annot <- c( 'org.Mm.eg.db', 'org.Hs.eg.db', 
                     'TxDb.Mmusculus.UCSC.mm9.knownGene','TxDb.Mmusculus.UCSC.mm10.knownGene', 
                     'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
@@ -45,6 +45,9 @@ install_packages(packages_utilities)
 install_packages(packages_tidy_stuff)
 install_packages(packages_plots)
 install_packages(packages_de_stuff)
-install_packages(packages_ranges_stuff)
+install_packages(packages_genomics_stuff)
 install_packages(packages_annot)
 install_packages(packages_gh)
+
+# Install megadepth
+megadepth::install_megadepth()
