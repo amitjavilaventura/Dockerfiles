@@ -6,13 +6,15 @@ curl \
 wget \
 libboost-all-dev \
 libudunits2-dev \
-gawk 
+gawk \
+pigz 
 
 # Install miniconda
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 && bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/miniconda3 \
 && /opt/miniconda3/bin/conda config --add channels defaults \
 && /opt/miniconda3/bin/conda config --add channels conda-forge \
+&& /opt/miniconda3/bin/conda config --add channels anaconda \
 && /opt/miniconda3/bin/conda config --add channels bioconda
 
 # Install software required for small RNA-seq pipeline with bioconda
@@ -28,6 +30,8 @@ RUN /opt/miniconda3/bin/conda install bedtools
 RUN /opt/miniconda3/bin/conda install deeptools
 RUN /opt/miniconda3/bin/conda install pysam 
 RUN /opt/miniconda3/bin/conda install r-spp
+
+
 
 # Install R packages
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'

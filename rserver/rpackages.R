@@ -29,24 +29,22 @@ install_packages <- function(packages) {
 
 
 # define packages to install from cran or bioconductor
-packages_utilities      <- c("devtools", "here", "reticulate", "openxlsx", "stringi")
-packages_tidy_stuff     <- c("plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2")
+packages_utilities      <- c("devtools", "here", "workflowr", "reticulate", "openxlsx", "stringi", 
+                             "plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2")
 packages_plots          <- c("ggforce", "ggpubr", "RColorBrewer", "scales", "circlize", "cowplot", "ggdendro", "ggExtra",
                              "patchwork", "ggthemes", "pheatmap", "ComplexHeatmap", "ggvenn", "ggrepel", "ggrastr",
-                             "ggbeeswarm", "ggbio", "ggExrtra", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
-pakages_compbio         <- c("fastqcr", 'GenomicRanges', 'plyranges', 'GenomicFeatures', "Rsamtools", "megadepth",
-                             "ChIPpeakAnno", "enrichR", "clusterProfiler",
+                             "ggbeeswarm", "ggbio", "ggExtra", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
+pakages_compbio         <- c("biomaRt", "fastqcr", 'GenomicRanges', 'plyranges', 'GenomicFeatures', "Rsamtools", "megadepth", "rtracklayer",
+                             "Rsubread", "ChIPseeker", "ChIPpeakAnno", "tximport", "msigdbr",  "DiffBind", "enrichR", "clusterProfiler",
                              "DOSE", "gprofiler2")
 packages_de_stuff       <- c('DESeq2', 'pcaExplorer','apeglm', 'IHW')
 packages_annot          <- c('org.Mm.eg.db', 'org.Hs.eg.db', 
-                             'TxDb.Mmusculus.UCSC.mm9.knownGene', 'TxDb.Mmusculus.UCSC.mm10.knownGene', 
+                             'TxDb.Mmusculus.UCSC.mm9.knownGene','TxDb.Mmusculus.UCSC.mm10.knownGene', 
                              'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
-
-packages_gh <- c("amitjavilaventura/plotmics", "PhanstielLab/bedtoolsr")
+packages_gh             <- c("amitjavilaventura/plotmics", "PhanstielLab/bedtoolsr", "poisonalien/trackplot")
 
 # Install packages from bioconductor
 install_packages(packages_utilities)
-install_packages(packages_tidy_stuff)
 install_packages(packages_plots)
 install_packages(packages_de_stuff)
 install_packages(pakages_compbio)
