@@ -1,4 +1,3 @@
-
 FROM rocker/rstudio:latest
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -164,5 +163,8 @@ RUN git clone 'https://github.com/CRG-Barcelona/bwtool' \
 
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 
-COPY rpackages.R /Rscripts/
-RUN Rscript /Rscripts/rpackages.R
+RUN mkdir /Rscripts
+COPY rpackages_general.R /Rscripts/
+COPY rpackages_bio.R /Rscripts/
+RUN Rscript /Rscripts/rpackages_general.R
+RUN Rscript /Rscripts/rpackages_bio.R
