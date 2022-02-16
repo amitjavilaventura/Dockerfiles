@@ -34,6 +34,65 @@ RUN /opt/miniconda3/bin/conda install pysam
 RUN /opt/miniconda3/bin/conda install r-spp
 RUN /opt/miniconda3/bin/conda install fastq_utils
 
+# Create directory for other tools 
+RUN mkdir -p /utils 
+
+# Install ENSEMBL Compara Perl API and requirements
+WORKDIR /utils/
+RUN wget https://github.com/bioperl/bioperl-live/archive/refs/tags/release-1-7-2.zip
+RUN unzip release-1-7-2.zip && \
+ mv bioperl-live-release-1-7-2  bioperl-1.7.2
+RUN wget -O ensembl-api.tar.gz http://ftp.ensembl.org/pub/ensembl-api.tar.gz
+RUN tar zxvf ensembl-api.tar.gz
+
+WORKDIR /
+
+# Update PERL5LIB
+ENV PERL5LIB "${PERL5LIB}:/utils/bioperl-1.7.2"
+ENV PERL5LIB "${PERL5LIB}:/utils/ensembl/modules"
+ENV PERL5LIB "${PERL5LIB}:/utils/ensembl-compara/modules"
+ENV PERL5LIB "${PERL5LIB}:/utils/ensembl-variation/modules"
+ENV PERL5LIB "${PERL5LIB}:/utils/ensembl-funcgen/modules"
+
+# Check that ENSEMBL APIs work
+WORKDIR /utils/ensembl/misc-scripts
+RUN ./ping_ensembl.pl
+WORKDIR /
+
+# Install repeatMasker and dependencies
+WORKDIR /utils/
+RUN pip install h5py
+RUN wget -O rmblast-2.11.0.tar.gz http://www.repeatmasker.org/rmblast-2.11.0+-x64-linux.tar.gz && \
+  tar zxvf rmblast-2.11.0.tar.gz
+
+RUN wget -O trf_4.09 https://github.com/Benson-Genomics-Lab/TRF/releases/download/v4.09.1/trf409.linux64
+RUN chmod -x trf_4.09
+
+RUN wget https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.2-p1.tar.gz && \
+ tar -xvzf RepeatMasker-4.1.2-p1.tar.gz
+
+WORKDIR /utils/RepeatMasker/Libraries
+RUN wget https://www.dfam.org/releases/Dfam_3.2/families/Dfam.h5.gz && \
+ gunzip Dfam.h5.gz
+WORKDIR /
+
+# I will configure repeatmasker within the image itself since I cannot configure within the build.
+#  $ cd /utils/RepeatMasker/ 
+#  $ perl ./configure
+#  $ ...
+# To do so, build this docker file, open the docker image and run the required configurations and save them
+#  $ docker run -i -t amitjavilaventura/picapp:latest /bin/bash 
+#  $ ...
+#  $ docker ps -l ## to get the container id
+#  $ exit
+#  $ docker commit 
+
+
+# Install Manna ()
+WORKDIR /utils/
+RUN svn checkout https://svn.code.sf.net/p/manna/code/ /utils/manna-code
+WORKDIR /
+
 # Install R packages
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 
