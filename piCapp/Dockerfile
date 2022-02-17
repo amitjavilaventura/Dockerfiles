@@ -8,7 +8,8 @@ libboost-all-dev \
 libudunits2-dev \
 gawk \
 pigz \
-subversion
+subversion \
+python
 
 # Install miniconda
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -20,25 +21,29 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 
 # Install software required for small RNA-seq pipeline with bioconda
 # Force version of bowtie because if not, it downloads v 1.0.0, which does not accept gzipped fastq
-RUN /opt/miniconda3/bin/conda install fastqc
-RUN /opt/miniconda3/bin/conda install rseqc
-RUN /opt/miniconda3/bin/conda install multiqc
-RUN /opt/miniconda3/bin/conda install cutadapt
-RUN /opt/miniconda3/bin/conda install fastx_toolkit
-RUN /opt/miniconda3/bin/conda install bowtie=1.3.1
-RUN /opt/miniconda3/bin/conda install samtools
+RUN /opt/miniconda3/bin/conda install fastqc rseqc multiqc
+RUN /opt/miniconda3/bin/conda install cutadapt fastx_toolkit
+RUN /opt/miniconda3/bin/conda install bowtie=1.3.1 samtools star
 RUN /opt/miniconda3/bin/conda install subread
-RUN /opt/miniconda3/bin/conda install bedtools
+RUN /opt/miniconda3/bin/conda install bedtools bedops
 RUN /opt/miniconda3/bin/conda install deeptools
-RUN /opt/miniconda3/bin/conda install pysam 
+RUN /opt/miniconda3/bin/conda install pysam
 RUN /opt/miniconda3/bin/conda install r-spp
 RUN /opt/miniconda3/bin/conda install fastq_utils
 
 # Create directory for other tools 
 RUN mkdir -p /utils 
+WORKDIR /utils/
+
+# # Install pyicoteo toolsuite (it has problems, but I could install it locally)
+# RUN wget -O pyicoteo.zip https://bitbucket.org/regulatorygenomicsupf/pyicoteo/get/b49b679a3f8f.zip && \
+#  unzip pyicoteo.zip && \
+#  mv *pyicoteo*/ pyicoteo/
+# RUN ls -lah /utils/
+# RUN ls -lah /utils/pyicoteo
+# RUN python pyicoteo/setup.py install
 
 # Install ENSEMBL Compara Perl API and requirements
-WORKDIR /utils/
 RUN wget https://github.com/bioperl/bioperl-live/archive/refs/tags/release-1-7-2.zip
 RUN unzip release-1-7-2.zip && \
  mv bioperl-live-release-1-7-2  bioperl-1.7.2
@@ -60,6 +65,7 @@ RUN ./ping_ensembl.pl
 WORKDIR /
 
 # Install repeatMasker and dependencies
+# force unzip of Dfam.h5.gz because there is already one file with the same name
 WORKDIR /utils/
 RUN pip install h5py
 RUN wget -O rmblast-2.11.0.tar.gz http://www.repeatmasker.org/rmblast-2.11.0+-x64-linux.tar.gz && \
@@ -71,9 +77,11 @@ RUN chmod -x trf_4.09
 RUN wget https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.2-p1.tar.gz && \
  tar -xvzf RepeatMasker-4.1.2-p1.tar.gz
 
+RUN ls /utils/RepeatMasker/Libraries
+
 WORKDIR /utils/RepeatMasker/Libraries
 RUN wget https://www.dfam.org/releases/Dfam_3.2/families/Dfam.h5.gz && \
- gunzip Dfam.h5.gz
+ gunzip -f Dfam.h5.gz
 WORKDIR /
 
 # I will configure repeatmasker within the image itself since I cannot configure within the build.
