@@ -31,6 +31,7 @@ RUN /opt/miniconda3/bin/conda install pysam
 RUN /opt/miniconda3/bin/conda install r-spp
 RUN /opt/miniconda3/bin/conda install fastq_utils
 
+
 # Create directory for other tools 
 RUN mkdir -p /utils 
 WORKDIR /utils/
@@ -68,6 +69,7 @@ WORKDIR /
 # force unzip of Dfam.h5.gz because there is already one file with the same name
 WORKDIR /utils/
 RUN pip install h5py
+
 RUN wget -O rmblast-2.11.0.tar.gz http://www.repeatmasker.org/rmblast-2.11.0+-x64-linux.tar.gz && \
   tar zxvf rmblast-2.11.0.tar.gz
 
@@ -82,18 +84,30 @@ RUN ls /utils/RepeatMasker/Libraries
 WORKDIR /utils/RepeatMasker/Libraries
 RUN wget https://www.dfam.org/releases/Dfam_3.2/families/Dfam.h5.gz && \
  gunzip -f Dfam.h5.gz
-WORKDIR /
+WORKDIR /utils/
+
+# Install h5py for repeatmasker. 
+# With pip intstall gives some problem for the subsequent configuration of the repeatMasker. 
+# I have done it manually inside the docker container by running the following command
+# /opt/miniconda3/bin/conda install h5py
+RUN /opt/miniconda3/bin/conda install h5py
 
 # I will configure repeatmasker within the image itself since I cannot configure within the build.
+# First give execution permissions to all the utils
+# Also install the h5py with conda if not installed
+#  $ cd /utils 
+#  $ chmod 755 *
 #  $ cd /utils/RepeatMasker/ 
 #  $ perl ./configure
-#  $ ...
+#  $ ... TRF path = /utils/trf_4.09
+#  $ ... RMBLAST dir path = /utils/rmblast-2.11.0/bin/
 # To do so, build this docker file, open the docker image and run the required configurations and save them
-#  $ docker run -i -t amitjavilaventura/picapp:latest /bin/bash 
-#  $ ...
-#  $ docker ps -l ## to get the container id
+#  $ docker images ## get the image id
+#  $ docker run -it image_id bin/bash
+#  $ ... see commands avobe
 #  $ exit
-#  $ docker commit 
+#  $ docker ps -a # to get the container id
+#  $ docker commit container_id new_image_name
 
 
 # Install Manna ()
