@@ -92,24 +92,6 @@ WORKDIR /utils/
 # /opt/miniconda3/bin/conda install h5py
 RUN /opt/miniconda3/bin/conda install h5py
 
-# I will configure repeatmasker within the image itself since I cannot configure within the build.
-# First give execution permissions to all the utils
-# Also install the h5py with conda if not installed
-#  $ cd /utils 
-#  $ chmod 755 *
-#  $ cd /utils/RepeatMasker/ 
-#  $ perl ./configure
-#  $ ... TRF path = /utils/trf_4.09
-#  $ ... RMBLAST dir path = /utils/rmblast-2.11.0/bin/
-# To do so, build this docker file, open the docker image and run the required configurations and save them
-#  $ docker images ## get the image id
-#  $ docker run -it image_id bin/bash
-#  $ ... see commands avobe
-#  $ exit
-#  $ docker ps -a # to get the container id
-#  $ docker commit container_id new_image_name
-
-
 # Install Manna ()
 WORKDIR /utils/
 RUN svn checkout https://svn.code.sf.net/p/manna/code/ /utils/manna-code
@@ -124,6 +106,15 @@ COPY rpackages_bio.R /Rscripts/
 RUN Rscript /Rscripts/rpackages_general.R
 RUN Rscript /Rscripts/rpackages_bio.R
 
+# Install more required packages, libraries..
+# Update perl
+# DBI and DBD::mysql for ensembl compara
+RUN apt-get update && apt-get upgrade -y && apt-get install -y perl
+RUN apt install perlbrew
+RUN apt-get install libdbi-perl
+RUN apt-get install libdbd-mysql-perl
+RUN perlbrew install perl-5.30.0 && perlbrew switch perl-5.30.0
+
 # Update path
 ENV PATH "/utils/ensembl/:/utils/ensembl/modules:$PATH"
 ENV PATH "/utils/ensembl-compara/:/utils/ensembl-compara/modules:$PATH"
@@ -134,3 +125,23 @@ ENV PATH "/utils/manna-code:$PATH"
 ENV PATH "/utils:$PATH"
 ENV PATH "/opt/miniconda3/bin:$PATH"
 ENV PATH "/usr/local/bin:$PATH"
+
+# I will configure somethings inside the docker container
+# To do so, build this docker file, open the docker image and run the required configurations and save them
+#  $ docker images ## get the image id
+#  $ docker run -it image_id bin/bash
+#  $ ... see commands to configure and install extra things
+#  $ exit
+#  $ docker ps -a # to get the container id
+#  $ docker commit container_id amitjavilaventura/picapp:config
+# Configure repeatmasker within the image itself since I cannot configure within the build.
+# First give execution permissions to all the utils
+# Also install the h5py with conda if not installed
+#  $ cd /utils 
+#  $ chmod 755 *
+#  $ cd /utils/RepeatMasker/ 
+#  $ perl ./configure
+#  $ ... TRF path = /utils/trf_4.09
+#  $ ... RMBLAST dir path = /utils/rmblast-2.11.0/bin/
+# Ensembl compara things.
+# Go to /utils/ensembl/misc_scripts and run "perl ping_ensembl.pl" (it may take some minutes). If there is an error, try to fix it. 
