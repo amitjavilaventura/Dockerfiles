@@ -50,7 +50,6 @@ RUN unzip release-1-7-2.zip && \
  mv bioperl-live-release-1-7-2  bioperl-1.7.2
 RUN wget -O ensembl-api.tar.gz http://ftp.ensembl.org/pub/ensembl-api.tar.gz
 RUN tar zxvf ensembl-api.tar.gz
-
 WORKDIR /
 
 # Update PERL5LIB
@@ -59,11 +58,6 @@ ENV PERL5LIB "${PERL5LIB}:/utils/ensembl/modules"
 ENV PERL5LIB "${PERL5LIB}:/utils/ensembl-compara/modules"
 ENV PERL5LIB "${PERL5LIB}:/utils/ensembl-variation/modules"
 ENV PERL5LIB "${PERL5LIB}:/utils/ensembl-funcgen/modules"
-
-# Check that ENSEMBL APIs work
-WORKDIR /utils/ensembl/misc-scripts
-RUN ./ping_ensembl.pl
-WORKDIR /
 
 # Install repeatMasker and dependencies
 # force unzip of Dfam.h5.gz because there is already one file with the same name
@@ -99,21 +93,11 @@ WORKDIR /
 
 # Install R packages
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
-
 RUN mkdir /Rscripts
 COPY rpackages_general.R /Rscripts/
 COPY rpackages_bio.R /Rscripts/
 RUN Rscript /Rscripts/rpackages_general.R
 RUN Rscript /Rscripts/rpackages_bio.R
-
-# Install more required packages, libraries..
-# Update perl
-# DBI and DBD::mysql for ensembl compara
-RUN apt-get update && apt-get upgrade -y && apt-get install -y perl
-RUN apt install perlbrew
-RUN apt-get install libdbi-perl
-RUN apt-get install libdbd-mysql-perl
-RUN perlbrew install perl-5.30.0 && perlbrew switch perl-5.30.0
 
 # Update path
 ENV PATH "/utils/ensembl/:/utils/ensembl/modules:$PATH"
@@ -125,6 +109,20 @@ ENV PATH "/utils/manna-code:$PATH"
 ENV PATH "/utils:$PATH"
 ENV PATH "/opt/miniconda3/bin:$PATH"
 ENV PATH "/usr/local/bin:$PATH"
+
+# Install more required packages, libraries..
+# Update perl
+# DBI and DBD::mysql for ensembl compara
+RUN apt-get update && apt-get upgrade -y && apt-get install -y perl
+RUN apt install perlbrew
+RUN apt-get install libdbi-perl
+RUN apt-get install libdbd-mysql-perl
+RUN perlbrew install perl-5.30.0 && perlbrew switch perl-5.30.0
+
+# Check that ENSEMBL APIs work
+WORKDIR /utils/ensembl/misc-scripts
+RUN ./ping_ensembl.pl
+WORKDIR /
 
 # I will configure somethings inside the docker container
 # To do so, build this docker file, open the docker image and run the required configurations and save them
