@@ -29,21 +29,14 @@ install_packages <- function(packages) {
 
 
 # define packages to install from cran or bioconductor
-pakages_compbio         <- c("fastqcr", 'GenomicRanges', 'plyranges', 'GenomicFeatures', "Rsamtools", "megadepth",
-                             "ChIPpeakAnno", "enrichR", "clusterProfiler", "rtracklayer",
-                             "DOSE", "gprofiler2")
-packages_de_stuff       <- c('DESeq2', 'pcaExplorer','apeglm', 'IHW')
-packages_annot          <- c('org.Mm.eg.db', 'org.Hs.eg.db', 
-                             'TxDb.Mmusculus.UCSC.mm9.knownGene', 'TxDb.Mmusculus.UCSC.mm10.knownGene', 
-                             'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
+packages_utilities      <- c("devtools", "here", "reticulate", "openxlsx", "stringi", "workflowr")
+packages_tidy_stuff     <- c("plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2", "janitor")
+packages_plots          <- c("ggforce", "ggpubr", "RColorBrewer", "scales", "circlize", "cowplot", "ggdendro", "ggExtra",
+                             "patchwork", "ggthemes", "pheatmap", "ComplexHeatmap", "ggvenn", "ggrepel", "ggrastr",
+                             "ggbeeswarm", "ggbio", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
 
-packages_gh <- c("amitjavilaventura/plotmics", "PhanstielLab/bedtoolsr")
 
 # Install packages from bioconductor
-install_packages(packages_de_stuff)
-install_packages(pakages_compbio)
-install_packages(packages_annot)
-install_packages(packages_gh)
-
-# Install megadepth
-megadepth::install_megadepth()
+install_packages(packages_utilities)
+install_packages(packages_tidy_stuff)
+install_packages(packages_plots)

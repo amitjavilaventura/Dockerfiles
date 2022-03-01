@@ -30,7 +30,7 @@ install_packages <- function(packages) {
 
 # define packages to install from cran or bioconductor
 pakages_compbio         <- c("fastqcr", 'GenomicRanges', 'plyranges', 'GenomicFeatures', "Rsamtools", "megadepth",
-                             "ChIPpeakAnno", "enrichR", "clusterProfiler", "rtracklayer",
+                             "ChIPpeakAnno", "enrichR", "clusterProfiler",
                              "DOSE", "gprofiler2")
 packages_de_stuff       <- c('DESeq2', 'pcaExplorer','apeglm', 'IHW')
 packages_annot          <- c('org.Mm.eg.db', 'org.Hs.eg.db', 
