@@ -25,13 +25,14 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 
 # Install software required for small RNA-seq pipeline with bioconda
 # Force version of bowtie because if not, it downloads v 1.0.0, which does not accept gzipped fastq
+# Force version of samtools because otherwise downloads an older version that has conflicts with openssl
 RUN /opt/miniconda3/bin/conda install fastqc
 RUN /opt/miniconda3/bin/conda install rseqc
 RUN /opt/miniconda3/bin/conda install multiqc
 RUN /opt/miniconda3/bin/conda install cutadapt
 RUN /opt/miniconda3/bin/conda install fastx_toolkit
 RUN /opt/miniconda3/bin/conda install bowtie=1.3.1
-RUN /opt/miniconda3/bin/conda install samtools
+RUN /opt/miniconda3/bin/conda install samtools=1.11
 RUN /opt/miniconda3/bin/conda install subread
 RUN /opt/miniconda3/bin/conda install bedtools
 RUN /opt/miniconda3/bin/conda install deeptools
