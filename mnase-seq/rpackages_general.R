@@ -29,14 +29,13 @@ install_packages <- function(packages) {
 
 
 # define packages to install from cran or bioconductor
-packages_utilities      <- c("devtools", "here", "workflowr", "reticulate", "openxlsx", "stringi", 
-                             "plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2")
+packages_utilities      <- c("devtools", "here", "reticulate", "openxlsx", "stringi", "workflowr")
+packages_tidy_stuff     <- c("plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2", "janitor")
 packages_plots          <- c("ggforce", "ggpubr", "RColorBrewer", "scales", "circlize", "cowplot", "ggdendro", "ggExtra",
                              "patchwork", "ggthemes", "pheatmap", "ComplexHeatmap", "ggvenn", "ggrepel", "ggrastr",
-                             "ggbeeswarm", "ggbio", "ggExtra", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
-packages_github         <- c("amitjavilaventura/ggmitji")
+                             "ggbeeswarm", "ggbio", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
 
 # Install packages from bioconductor
 install_packages(packages_utilities)
+install_packages(packages_tidy_stuff)
 install_packages(packages_plots)
-install_packages(packages_github)

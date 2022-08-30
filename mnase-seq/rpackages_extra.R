@@ -29,14 +29,10 @@ install_packages <- function(packages) {
 
 
 # define packages to install from cran or bioconductor
-packages_utilities      <- c("devtools", "here", "workflowr", "reticulate", "openxlsx", "stringi", 
-                             "plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2")
-packages_plots          <- c("ggforce", "ggpubr", "RColorBrewer", "scales", "circlize", "cowplot", "ggdendro", "ggExtra",
-                             "patchwork", "ggthemes", "pheatmap", "ComplexHeatmap", "ggvenn", "ggrepel", "ggrastr",
-                             "ggbeeswarm", "ggbio", "ggExtra", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
-packages_github         <- c("amitjavilaventura/ggmitji")
+
+packages_nucleosome     <- c("nucleR")
+packages_gh <- c("nucleosome-dynamics/NucDyn")
 
 # Install packages from bioconductor
-install_packages(packages_utilities)
-install_packages(packages_plots)
-install_packages(packages_github)
+install_packages(packages_gh)
+install_packages(packages_nucleosome)

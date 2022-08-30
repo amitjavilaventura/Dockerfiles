@@ -33,11 +33,12 @@ pakages_compbio         <- c("fastqcr", 'GenomicRanges', 'plyranges', 'GenomicFe
                              "ChIPpeakAnno", "enrichR", "clusterProfiler", "rtracklayer",
                              "DOSE", "gprofiler2")
 packages_de_stuff       <- c('DESeq2', 'pcaExplorer','apeglm', 'IHW')
-packages_annot          <- c('org.Mm.eg.db', 'org.Hs.eg.db', 
-                             'TxDb.Mmusculus.UCSC.mm9.knownGene', 'TxDb.Mmusculus.UCSC.mm10.knownGene', 
+packages_annot          <- c('org.Mm.eg.db', 'org.Hs.eg.db',
+                             'TxDb.Mmusculus.UCSC.mm9.knownGene', 'TxDb.Mmusculus.UCSC.mm10.knownGene',
                              'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
 
-packages_gh <- c("amitjavilaventura/plotmics", "PhanstielLab/bedtoolsr")
+packages_gh <- c(#"amitjavilaventura/plotmics", 
+                 "PhanstielLab/bedtoolsr")
 
 # Install packages from bioconductor
 install_packages(packages_de_stuff)

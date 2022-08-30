@@ -9,5 +9,5 @@ echo "ImageVersion: "$IMAGE_VERSION
 docker build -t amitjavilaventura/picapp_tools:${IMAGE_VERSION} -t amitjavilaventura/picapp_tools:latest .
 
 
-# docker push amitjavilaventura/picapp_tools:${IMAGE_VERSION}  # after configuring repeatmasker etc
-# docker push amitjavilaventura/picapp_tools:latest            # after configuring repeatmasker etc
+docker push amitjavilaventura/picapp_tools:${IMAGE_VERSION}  # after configuring repeatmasker etc
+docker push amitjavilaventura/picapp_tools:latest            # after configuring repeatmasker etc

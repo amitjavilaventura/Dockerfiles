@@ -73,12 +73,19 @@ RUN /opt/miniconda3/bin/conda install -c bioconda rnastructure
 
 RUN chmod 755 -R /utils/*
 
+# Install Rpackages ================================================================ #
+
+RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
+
+RUN mkdir /Rscripts
+COPY rpackages_general.R /Rscripts/
+COPY rpackages_bio.R /Rscripts/
+RUN Rscript /Rscripts/rpackages_general.R
+RUN Rscript /Rscripts/rpackages_bio.R
 
 # PATH VARIABLE ==================================================================== #
 # Update DATAPATH VARIABLE (required for correct rnastructure)
-ENV DATAPATH "$DATAPATH:/opt/miniconda3/shares/rnastructure/data_tables"
-ENV DATAPATH "$DATAPATH:/opt/miniconda3/share/ViennaRNA/bin"
-ENV DATAPATH "$DATAPATH:/opt/miniconda3/share/RNAz/"
+ENV DATAPATH "/opt/miniconda3/share/rnastructure/data_tables"
 
 # Update path
 ENV PATH "/utils/homer/bin:$PATH"
