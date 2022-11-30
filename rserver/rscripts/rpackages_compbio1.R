@@ -1,4 +1,3 @@
-
 # Install packages function -- function taken from dfernandezperez
 install_packages <- function(packages) {
   for ( i in packages ) {
@@ -28,15 +27,21 @@ install_packages <- function(packages) {
 }
 
 
-# define packages to install from cran or bioconductor
-packages_utilities      <- c("devtools", "here", "workflowr", "reticulate", "openxlsx", "stringi", 
-                             "plyr", "DT", "data.table", "tidyverse", "openxlsx", "magrittr", "reshape2")
-packages_plots          <- c("ggforce", "ggpubr", "RColorBrewer", "scales", "circlize", "cowplot", "ggdendro", "ggExtra",
-                             "patchwork", "ggthemes", "pheatmap", "ComplexHeatmap", "ggvenn", "ggrepel", "ggrastr",
-                             "ggbeeswarm", "ggbio", "ggExtra", "thomasp85/ggfx", "ggsignif", "UpSetR", "viridis", "wesanderson")
-packages_github         <- c("amitjavilaventura/ggmitji")
 
-# Install packages from bioconductor
-install_packages(packages_utilities)
-install_packages(packages_plots)
-install_packages(packages_github)
+# define packages to install from cran or bioconductor
+packages_compbio_general <- c("Biostrings","biomaRt", "biomartr",'GenomicRanges','GenomicFeatures','plyranges', "SummarizedExperiment")
+
+packages_compbio_deep    <- c("megadepth", "Rsamtools", "Rsubread","ChIPseeker", "ChIPpeakAnno","bamsignals")
+
+packages_compbio_de     <- c("tximport", 'DESeq2', 'pcaExplorer','apeglm', 'IHW', "edgeR", "limma", "DiffBind")
+
+packages_compbio_seqs   <- c("memmes", "marge", "nucleR", "nuCpos", "msa", "seqinr", "seqTools")
+
+packages_compbio_singlecell <- c("Seurat", "GreenleafLab/ArchR")
+
+# Install packages
+install_packages(c(packages_compbio_general, packages_compbio_deep, packages_compbio_de, packages_combio_seqs, packages_compbio_singlecell))
+
+# Install megadepth
+megadepth::install_megadepth()
+

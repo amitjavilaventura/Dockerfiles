@@ -90,6 +90,8 @@ RUN conda install --quiet --yes -c bioconda \
   bedtools \
   deeptools \
   samtools \
+  homer \
+  meme \
   && conda install --quiet --yes -c plotly plotly-orca
 
 ##----------------------------------------------------------------------------##
@@ -164,7 +166,13 @@ RUN git clone 'https://github.com/CRG-Barcelona/bwtool' \
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 
 RUN mkdir /Rscripts
-COPY rpackages_general.R /Rscripts/
-COPY rpackages_bio.R /Rscripts/
-RUN Rscript /Rscripts/rpackages_general.R
-RUN Rscript /Rscripts/rpackages_bio.R
+COPY rscripts/rpackages_*.R /Rscripts/
+
+RUN Rscript /Rscripts/rpackages_utils.R
+RUN Rscript /Rscripts/rpackages_plots.R
+RUN Rscript /Rscripts/rpackages_annot_db.R
+RUN Rscript /Rscripts/rpackages_compbio1.R
+RUN Rscript /Rscripts/rpackages_compbio2.R
+RUN Rscript /Rscripts/rpackages_github.R
+
+RUN rm -r Rscripts

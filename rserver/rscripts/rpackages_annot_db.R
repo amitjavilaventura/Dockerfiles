@@ -1,4 +1,3 @@
-
 # Install packages function -- function taken from dfernandezperez
 install_packages <- function(packages) {
   for ( i in packages ) {
@@ -28,21 +27,10 @@ install_packages <- function(packages) {
 }
 
 
+
 # define packages to install from cran or bioconductor
-pakages_compbio         <- c("biomaRt", "fastqcr", 'GenomicRanges', 'plyranges', 'GenomicFeatures', "Rsamtools", "megadepth", "rtracklayer",
-                             "Rsubread", "ChIPseeker", "ChIPpeakAnno", "tximport", "msigdbr",  "DiffBind", "enrichR", "clusterProfiler",
-                             "DOSE", "gprofiler2")
-packages_de_stuff       <- c('DESeq2', 'pcaExplorer','apeglm', 'IHW')
-packages_annot          <- c('org.Mm.eg.db', 'org.Hs.eg.db',
-                             'TxDb.Mmusculus.UCSC.mm9.knownGene','TxDb.Mmusculus.UCSC.mm10.knownGene',
-                             'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
-packages_gh             <- c("amitjavilaventura/plotmics", "PhanstielLab/bedtoolsr", "poisonalien/trackplot", "ruthkr/rnafolding")
 
-# Install packages from bioconductor
-install_packages(packages_de_stuff)
-install_packages(pakages_compbio)
-install_packages(packages_annot)
-install_packages(packages_gh)
+packages_annot_db       <- c('org.Mm.eg.db', 'org.Hs.eg.db', "msigdbr", "GSEABase",
+                             'TxDb.Mmusculus.UCSC.mm9.knownGene','TxDb.Mmusculus.UCSC.mm10.knownGene', 'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
 
-# Install megadepth
-megadepth::install_megadepth()
+install_packages(packages_annot_db)
