@@ -31,6 +31,9 @@ install_packages <- function(packages) {
 # define packages to install from cran or bioconductor
 
 packages_annot_db       <- c('org.Mm.eg.db', 'org.Hs.eg.db', "msigdbr", "GSEABase",
-                             'TxDb.Mmusculus.UCSC.mm9.knownGene','TxDb.Mmusculus.UCSC.mm10.knownGene', 'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene')
+                             'TxDb.Mmusculus.UCSC.mm9.knownGene','TxDb.Mmusculus.UCSC.mm10.knownGene', 'TxDb.Hsapiens.UCSC.hg19.knownGene', 'TxDb.Hsapiens.UCSC.hg18.knownGene',
+							 'TxDb.Mmusculus.UCSC.mm39.refGene', 
+							 "BSgenome.Dmelanogaster.UCSC.dm6", "BSgenome.Hsapiens.UCSC.hg38", "BSgenome.Mmusculus.UCSC.mm10", "BSgenome.Mmusculus.UCSC.mm39",
+							  "BSgenome.Celegans.UCSC.ce11")
 
 install_packages(packages_annot_db)
