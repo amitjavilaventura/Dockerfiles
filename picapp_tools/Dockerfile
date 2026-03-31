@@ -4,7 +4,7 @@ RUN apt-get update \
 && apt-get install -y \
 curl \
 wget \
-python \
+# python \
 perl \
 libdbi-perl \
 libdbd-mysql-perl \
@@ -62,36 +62,38 @@ WORKDIR /utils/ensembl/misc-scripts
 RUN ./ping_ensembl.pl
 WORKDIR /
 
-# REPEATMASKER ------------------------------------------------------------------- #
-# Install repeatMasker and dependencies
-WORKDIR /utils/
+### REPEATMASKER, MANNA AND HOMER ARE NOT INSTALLED
 
-RUN /opt/miniconda3/bin/conda install -c anaconda pip
-RUN /opt/miniconda3/bin/pip install h5py
-RUN /opt/miniconda3/bin/conda install h5py
+# # REPEATMASKER ------------------------------------------------------------------- #
+# # Install repeatMasker and dependencies
+# WORKDIR /utils/
 
-RUN wget -O rmblast-2.11.0.tar.gz http://www.repeatmasker.org/rmblast-2.11.0+-x64-linux.tar.gz && \
-  tar zxvf rmblast-2.11.0.tar.gz
+# RUN /opt/miniconda3/bin/conda install -c anaconda pip
+# RUN /opt/miniconda3/bin/pip install h5py
+# RUN /opt/miniconda3/bin/conda install h5py
 
-RUN wget -O trf_4.09 https://github.com/Benson-Genomics-Lab/TRF/releases/download/v4.09.1/trf409.linux64
-RUN chmod -x trf_4.09 && chmod 755 *
+# RUN wget -O rmblast-2.11.0.tar.gz http://www.repeatmasker.org/rmblast-2.11.0+-x64-linux.tar.gz && \
+#   tar zxvf rmblast-2.11.0.tar.gz
 
-RUN wget https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.2-p1.tar.gz && \
- tar -xvzf RepeatMasker-4.1.2-p1.tar.gz
+# RUN wget -O trf_4.09 https://github.com/Benson-Genomics-Lab/TRF/releases/download/v4.09.1/trf409.linux64
+# RUN chmod -x trf_4.09 && chmod 755 *
 
-RUN chmod 755 *
-WORKDIR /utils/RepeatMasker/
-RUN perl ./configure -trf_prgm /utils/trf_4.09 -rmblast_dir /utils/rmblast-2.11.0/bin/ -default_search_engine "rmblast"
+# RUN wget https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.2-p1.tar.gz && \
+#  tar -xvzf RepeatMasker-4.1.2-p1.tar.gz
 
-# WORKDIR /utils/RepeatMasker/Libraries
-# RUN wget https://www.dfam.org/releases/Dfam_3.6/families/Dfam.h5.gz
-# RUN gunzip --force Dfam.h5.gz
-WORKDIR /
+# RUN chmod 755 *
+# WORKDIR /utils/RepeatMasker/
+# RUN perl ./configure -trf_prgm /utils/trf_4.09 -rmblast_dir /utils/rmblast-2.11.0/bin/ -default_search_engine "rmblast"
 
-# Install Manna ------------------------------------------------------------------------ #
-WORKDIR /utils/
-RUN svn checkout https://svn.code.sf.net/p/manna/code/ /utils/manna-code
-WORKDIR /
+# # WORKDIR /utils/RepeatMasker/Libraries
+# # RUN wget https://www.dfam.org/releases/Dfam_3.6/families/Dfam.h5.gz
+# # RUN gunzip --force Dfam.h5.gz
+# WORKDIR /
+
+# # Install Manna ------------------------------------------------------------------------ #
+# WORKDIR /utils/
+# RUN svn checkout https://svn.code.sf.net/p/manna/code/ /utils/manna-code
+# WORKDIR /
 
 # # Install HOMER -------------------------------------------------------------------- #
 # RUN mkdir -p /utils/homer
@@ -101,14 +103,14 @@ WORKDIR /
 
 WORKDIR /
 
-# # R LIBRARIES ========================================================================== #
-# # Install R packages
-# RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
-# RUN mkdir /Rscripts
-# COPY rpackages_general.R /Rscripts/
-# COPY rpackages_bio.R /Rscripts/
-# RUN Rscript /Rscripts/rpackages_general.R
-# RUN Rscript /Rscripts/rpackages_bio.R
+# R LIBRARIES ========================================================================== #
+# Install R packages
+RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
+RUN mkdir /Rscripts
+COPY rpackages_general.R /Rscripts/
+COPY rpackages_bio.R /Rscripts/
+RUN Rscript /Rscripts/rpackages_general.R
+RUN Rscript /Rscripts/rpackages_bio.R
 
 # Install python that may be needed
 RUN /opt/miniconda3/bin/pip install pandas
@@ -117,9 +119,9 @@ RUN /opt/miniconda3/bin/pip install scipy
 
 # PATH VARIABLE ==================================================================== #
 # Update path
-ENV PATH "/utils/RepeatMasker:$PATH"
-ENV PATH "/utils/RepeatMasker/util:$PATH"
-ENV PATH "/utils/manna-code:$PATH"
+# ENV PATH "/utils/RepeatMasker:$PATH"
+# ENV PATH "/utils/RepeatMasker/util:$PATH"
+# ENV PATH "/utils/manna-code:$PATH"
 ENV PATH "/utils:$PATH"
 ENV PATH "/utils/ensembl/:/utils/ensembl/modules:$PATH"
 ENV PATH "/utils/ensembl-compara/:/utils/ensembl-compara/modules:$PATH"
@@ -127,10 +129,13 @@ ENV PATH "/utils/ensembl-variation/:/utils/ensembl-variation/modules:$PATH"
 ENV PATH "/utils/ensembl-funcgen/:/utils/ensembl-funcgen/modules:$PATH"
 ENV PATH "/usr/local/bin:$PATH"
 
+
 # Test ENSEMBL Compara ============================================================== #
 WORKDIR /utils/ensembl/misc-scripts
 RUN perl ping_ensembl.pl
 WORKDIR /
+
+ENV PATH "/opt/miniconda3/bin/:$PATH"
 
 # I will configure somethings inside the docker container
 # To do so, build this docker file, open the docker image and run the required configurations and save them

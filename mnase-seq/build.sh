@@ -9,6 +9,6 @@ echo "ImageVersion: "$IMAGE_VERSION
 
 # Build and push docker image -----
 # docker build --no-cache -t amitjavilaventura/mnase_seq:${IMAGE_VERSION} -t amitjavilaventura/mnase_seq:latest -t amitjavilaventura/mnase_seq:config . && \
-docker build -t amitjavilaventura/mnase_seq:${IMAGE_VERSION} -t amitjavilaventura/mnase_seq:latest . && \
-  docker push amitjavilaventura/mnase_seq:${IMAGE_VERSION}
-  docker push amitjavilaventura/mnase_seq:latest 
+docker build -t amitjavilaventura/mnase_seq:${IMAGE_VERSION} -t amitjavilaventura/mnase_seq:latest .
+  # docker push amitjavilaventura/mnase_seq:${IMAGE_VERSION}
+  # docker push amitjavilaventura/mnase_seq:latest 
